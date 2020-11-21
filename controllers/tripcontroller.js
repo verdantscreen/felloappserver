@@ -1,6 +1,5 @@
 let router = require("express").Router();
 const { Router } = require("express");
-// const { Module } = require('module');
 const { databaseVersion } = require("../db");
 let sequelize = require("../db");
 let User = sequelize.import("../models/user");
@@ -9,22 +8,21 @@ let tripModel = sequelize.import("../models/trip");
 // post trip
 router.post("/", function (req, res) {
   console.log("trip create test");
-  // var tripdata = tripdata;
   let owner = req.user.id;
   let destination = req.body.tripdata.destination;
-  let occasion = req.body.tripdata.occasion;
   let departDate = req.body.tripdata.departDate;
   let returnDate = req.body.tripdata.returnDate;
   let companions = req.body.tripdata.companions;
+  let occasion = req.body.tripdata.occasion;
 
   tripModel
     .create({
-      owner_id: owner,
       destination: destination,
-      occasion: occasion,
       departDate: departDate,
       returnDate: returnDate,
       companions: companions,
+      occasion: occasion,
+      owner_id: owner,
     })
     .then(
       function createSuccess(tripdata) {
@@ -80,24 +78,24 @@ router.get("/:id", function (req, res) {
 
 // update single trip
 router.put("/:id", function (req, res) {
-  var tripdata = req.body.tripdata;
-  let data = req.params.id;
-  let userid = req.user.id;
   let destination = req.body.tripdata.destination;
-  let occasion = req.body.tripdata.occasion;
   let departDate = req.body.tripdata.departDate;
   let returnDate = req.body.tripdata.returnDate;
   let companions = req.body.tripdata.companions;
-  
+  let occasion = req.body.tripdata.occasion;
+  let data = req.params.id;
+  var tripdata = req.body.tripdata;
+  let userid = req.user.id;
+
   tripModel
     .update(
       {
-        owner_id: userid /* ? */,
         destination: destination,
-        occasion: occasion,
         departDate: departDate,
         returnDate: returnDate,
         companions: companions,
+        occasion: occasion,
+        owner_id: userid /* ? */,
       },
       { where: { id: data } }
     )

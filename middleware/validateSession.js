@@ -4,10 +4,10 @@ let User = sequelize.import('../models/user'); //this may cause issued, refer to
 
 module.exports = function(req, res, next) {
     if (req.method == 'OPTIONS') {
-        next()
+        next();
     } else {
         let sessionToken = req.headers.authorization;
-        console.log(sessionToken)
+        console.log(sessionToken);
         if (!sessionToken) return res.status(403).send({ auth: false, message: "No token provided" });
         else {
             jwt.verify(sessionToken, process.env.JWT_SECRET, (err, decoded) => {
@@ -26,4 +26,4 @@ module.exports = function(req, res, next) {
             });
         }
     }
-}
+};
