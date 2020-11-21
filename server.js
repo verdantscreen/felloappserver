@@ -8,7 +8,7 @@ let trip = require('./controllers/tripcontroller');
 // let thing = req
 let sequelize = require('./db');
 
-sequelize.sync({force: true}); //remove this when ready to keep data
+sequelize.sync(); //remove this when ready to keep data
 
 // app.use(cors());
 app.use(express.json()); // MUST go above routes so they can use express.json() (otherwise they will break)
