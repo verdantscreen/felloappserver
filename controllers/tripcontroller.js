@@ -1,27 +1,30 @@
 let router = require("express").Router();
 // const { Router } = require("express");
+// const { Module } = require('module');
 // const { databaseVersion } = require("../db");
 let sequelize = require("../db");
-let User = sequelize.import("../models/user");
+// let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 
-router.post("/", function (req, res) {
+// post trip
+router.post("/create", function (req, res) {
   console.log("testing");
+  var tripdata = tripdata;
+  let userId = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
-  let away = req.body.tripdata.away;
-  let home = req.body.tripdata.home;
+  let departDate = req.body.tripdata.departDate;
+  let returnDate = req.body.tripdata.returnDate;
   let companions = req.body.tripdata.companions;
-  let user = req.user.id;
 
   tripModel
     .create({
+      userId: userId,
       destination: destination,
       occasion: occasion,
-      away: away,
-      home: home,
+      departDate: departDate,
+      returnDate: returnDate,
       companions: companions,
-      user_id: user
     })
     .then(
       function createSuccess(tripdata) {
@@ -30,18 +33,19 @@ router.post("/", function (req, res) {
         });
       },
       function createError(err) {
-        console.log("hello");
+        console.log("post trip error");
         res.send(500, err.message);
       }
     );
 });
 
+// get all trips
 router.get("/", function (req, res) {
-  let userid = req.user.id;
+  let userId = req.user.id;
 
   tripModel
     .findAll({
-      where: { user_id: userid },
+      where: { userId: userId },
     })
     .then(
       function findAllSuccess(data) {
@@ -49,17 +53,19 @@ router.get("/", function (req, res) {
       },
       function findAllError(err) {
         res.send(500, err.message);
+        console.log("get all trips error")
       }
     );
 });
 
+// get single trip
 router.get("/:id", function (req, res) {
   let data = req.params.id;
-  let userid = req.user.id;
+  let userId = req.user.id;
 
   tripModel
     .findOne({
-      where: { id: data, user_id: userid },
+      where: { id: data, userId: userId },
     })
     .then(
       function findOneSuccess(data) {
@@ -67,30 +73,35 @@ router.get("/:id", function (req, res) {
       },
       function findOneError(err) {
         res.send(500, err.message);
+        console.log("get single trip error")
       }
     );
 });
 
+// update single trip
 router.put("/:id", function (req, res) {
+  var tripdata = req.body.tripdata;
+  let data = req.params.id;
+  let userId = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
-  let home = req.body.tripdata.home;
-  let data = req.params.id;
-  let tripdata = req.body.tripdata;
-  let userid = req.user.id;
+  let returnDate = req.body.tripdata.returnDate;
+  
 
   tripModel
     .update(
       {
+        userId: userId /* ? */,
         destination: destination,
         occasion: occasion,
-        home: home,
-        user_id: userid /* ? */,
+        departDate: departDate,
+        returnDate: returnDate,
+        companions: companions,
       },
       { where: { id: data } }
     )
     .then(
-      function updateSuccess(updatedLog) {
+      function updateSuccess(updatedTrip) {
         /* ? */
         res.json({
           tripdata: tripdata,
@@ -98,24 +109,27 @@ router.put("/:id", function (req, res) {
       },
       function updateError(err) {
         res.send(500, err.message);
+        console.log("update single trip error")
       }
     );
 });
 
+// delete single ingredient
 router.delete("/:id", function (req, res) {
   let data = req.params.id;
   let userid = req.user.id;
 
   tripModel
     .destroy({
-      where: { id: data, user_id: userid },
+      where: { id: data, userId: userId },
     })
     .then(
-      function deleteLogSuccess(data) {
+      function deleteTripSuccess(data) {
         res.send("trip deleted successfully");
       },
-      function deleteLogError(err) {
+      function deleteTripError(err) {
         res.send(500, err.message);
+        console.log("delete single trip error")
       }
     );
 });

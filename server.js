@@ -1,6 +1,7 @@
 require('dotenv').config();
 let express = require('express');
 let app = express();
+// let cors = require('cors');
 let test = require('./controllers/testcontroller'); 
 let user = require('./controllers/usercontroller');
 let trip = require('./controllers/tripcontroller');
@@ -9,13 +10,13 @@ let sequelize = require('./db');
 
 sequelize.sync({force: true}); //remove this when ready to keep data
 
-app.use(express.json()); //this MUST go above any routes so they can use express.json() function (otherwise they will break)
+// app.use(cors());
+app.use(express.json()); // MUST go above routes so they can use express.json() (otherwise they will break)
 app.use(require('./middleware/headers'));
 
 // exposed ROUTES //
 
 app.use('/test', test);
-
 app.use('/user', user);
 
 app.use(require('./middleware/validateSession'));

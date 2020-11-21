@@ -4,16 +4,16 @@ let sequelize = require('../db');
 let User = sequelize.import('../models/user');
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
-// Create User Endpoint: Starter
 
+// user signup
 router.post('/signup', function (req, res){
-    let username = req.body.user.username;
+    let name = req.body.user.name;
     let email = req.body.user.email;
-    let pass = req.body.user.password;
+    let password = req.body.user.password;
     User.create({
-        username: username,
+        name: name,
         email: email,
-        passwordhash: bcrypt.hashSync(pass, 10)
+        passwordhash: bcrypt.hashSync(password, 10)
     }).then(
         function createSuccess(user){
             let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
@@ -29,8 +29,9 @@ router.post('/signup', function (req, res){
     );
 });
 
+// user signin
 router.post('/signin', function (req, res){
-    User.findOne({ where: {username: req.body.user.username} } ).then(
+    User.findOne({ where: {email: req.body.user.email} } ).then(
         function (user){
             if(user){
                 bcrypt.compare(req.body.user.password, user.passwordhash, function(err, matches){
