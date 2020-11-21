@@ -22,7 +22,7 @@ app.use('/user', user);
 app.use(require('./middleware/validateSession'));
 // protected routes //
 app.use('/mytrips', trip);
-// app.use('/')
+// app.use('mytrips/trip/:id')
 
 app.listen(process.env.PORT, () => {
      console.log(`server is listening on port ${process.env.PORT}`)

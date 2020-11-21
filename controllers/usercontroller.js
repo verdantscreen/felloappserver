@@ -25,6 +25,7 @@ router.post('/signup', function (req, res){
         },
         function createError(err){
             res.send(500, err.message);
+            console.log("user sign up error")
         }
     );
 });
@@ -39,7 +40,7 @@ router.post('/signin', function (req, res){
                         let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: 60*60*24});
                         res.json({
                             user: user,
-                            message: "auth success",
+                            message: "user auth success",
                             sessionToken: token
                         });
                     } else {

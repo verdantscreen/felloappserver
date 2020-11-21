@@ -7,9 +7,9 @@ let sequelize = require("../db");
 let tripModel = sequelize.import("../models/trip");
 
 // post trip
-router.post("/create", function (req, res) {
-  console.log("testing");
-  var tripdata = tripdata;
+router.post("/", function (req, res) {
+  console.log("trip create test");
+  // var tripdata = tripdata; do not need?
   let userId = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
@@ -33,7 +33,7 @@ router.post("/create", function (req, res) {
         });
       },
       function createError(err) {
-        console.log("post trip error");
+        console.log("create trip error");
         res.send(500, err.message);
       }
     );
@@ -59,13 +59,13 @@ router.get("/", function (req, res) {
 });
 
 // get single trip
-router.get("/:id", function (req, res) {
+router.get("/:tripid", function (req, res) {
   let data = req.params.id;
   let userId = req.user.id;
 
   tripModel
     .findOne({
-      where: { id: data, userId: userId },
+      where: { tripid: data, userId: userId },
     })
     .then(
       function findOneSuccess(data) {
@@ -79,7 +79,7 @@ router.get("/:id", function (req, res) {
 });
 
 // update single trip
-router.put("/:id", function (req, res) {
+router.put("/:tripid", function (req, res) {
   var tripdata = req.body.tripdata;
   let data = req.params.id;
   let userId = req.user.id;
@@ -98,7 +98,7 @@ router.put("/:id", function (req, res) {
         returnDate: returnDate,
         companions: companions,
       },
-      { where: { id: data } }
+      { where: { tripid: data } }
     )
     .then(
       function updateSuccess(updatedTrip) {
@@ -114,14 +114,14 @@ router.put("/:id", function (req, res) {
     );
 });
 
-// delete single ingredient
-router.delete("/:id", function (req, res) {
+// delete single trip
+router.delete("/:tripid", function (req, res) {
   let data = req.params.id;
-  let userid = req.user.id;
+  let userId = req.user.id;
 
   tripModel
     .destroy({
-      where: { id: data, userId: userId },
+      where: { tripid: data, userId: userId },
     })
     .then(
       function deleteTripSuccess(data) {
