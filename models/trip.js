@@ -17,6 +17,6 @@ module.exports = function (sequelize, DataTypes){
             type: DataTypes.STRING,
             allowNull: true
         }, //drop down
-        userId: DataTypes.INTEGER
+        owner_id: DataTypes.INTEGER
     })
 }
