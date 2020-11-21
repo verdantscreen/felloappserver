@@ -10,7 +10,7 @@ let tripModel = sequelize.import("../models/trip");
 router.post("/", function (req, res) {
   console.log("trip create test");
   // var tripdata = tripdata;
-  let userId = req.user.id;
+  let owner = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
   let departDate = req.body.tripdata.departDate;
@@ -19,7 +19,7 @@ router.post("/", function (req, res) {
 
   tripModel
     .create({
-      userId: userId,
+      owner_id: owner,
       destination: destination,
       occasion: occasion,
       departDate: departDate,
@@ -41,11 +41,11 @@ router.post("/", function (req, res) {
 
 // get all trips
 router.get("/", function (req, res) {
-  let userId = req.user.id;
+  let userid = req.user.id;
 
   tripModel
     .findAll({
-      where: { userId: userId },
+      where: { owner_id: userid },
     })
     .then(
       function findAllSuccess(data) {
@@ -61,11 +61,11 @@ router.get("/", function (req, res) {
 // get single trip
 router.get("/:id", function (req, res) {
   let data = req.params.id;
-  let userId = req.user.id;
+  let userid = req.user.id;
 
   tripModel
     .findOne({
-      where: { id: data, userId: userId },
+      where: { id: data, owner_id: userid },
     })
     .then(
       function findOneSuccess(data) {
@@ -82,16 +82,17 @@ router.get("/:id", function (req, res) {
 router.put("/:id", function (req, res) {
   var tripdata = req.body.tripdata;
   let data = req.params.id;
-  let userId = req.user.id;
+  let userid = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
+  let departDate = req.body.tripdata.departDate;
   let returnDate = req.body.tripdata.returnDate;
+  let companions = req.body.tripdata.companions;
   
-
   tripModel
     .update(
       {
-        userId: userId /* ? */,
+        owner_id: userid /* ? */,
         destination: destination,
         occasion: occasion,
         departDate: departDate,
@@ -117,11 +118,11 @@ router.put("/:id", function (req, res) {
 // delete single trip
 router.delete("/:id", function (req, res) {
   let data = req.params.id;
-  let userId = req.user.id;
+  let userid = req.user.id;
 
   tripModel
     .destroy({
-      where: { id: data, userId: userId },
+      where: { id: data, owner_id: userid },
     })
     .then(
       function deleteTripSuccess(data) {
