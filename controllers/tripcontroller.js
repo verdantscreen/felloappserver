@@ -9,7 +9,7 @@ let tripModel = sequelize.import("../models/trip");
 // post trip
 router.post("/", function (req, res) {
   console.log("trip create test");
-  // var tripdata = tripdata; do not need?
+  var tripdata = tripdata;
   let userId = req.user.id;
   let destination = req.body.tripdata.destination;
   let occasion = req.body.tripdata.occasion;
