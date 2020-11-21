@@ -1,9 +1,9 @@
 let router = require("express").Router();
-// const { Router } = require("express");
+const { Router } = require("express");
 // const { Module } = require('module');
-// const { databaseVersion } = require("../db");
+const { databaseVersion } = require("../db");
 let sequelize = require("../db");
-// let User = sequelize.import("../models/user");
+let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 
 // post trip
