@@ -31,8 +31,8 @@ router.post("/", function (req, res) {
         });
       },
       function createError(err) {
-        console.log("create trip error");
         res.send(500, err.message);
+        console.log("create trip error");
       }
     );
 });
