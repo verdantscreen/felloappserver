@@ -1,9 +1,8 @@
 module.exports = function (sequelize, DataTypes){
     return sequelize.define("thing", {
         item: DataTypes.STRING,
-        quantity: DataTypes.STRING,
+        quantity: DataTypes.INTEGER,
         packed: DataTypes.BOOLEAN,
-        return: DataTypes.BOOLEAN,
-        trip_id: DataTypes.INTEGER
+        repacked: DataTypes.BOOLEAN,
     })
 }

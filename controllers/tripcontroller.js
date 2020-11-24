@@ -8,7 +8,7 @@ let tripModel = sequelize.import("../models/trip");
 // post trip
 router.post("/", function (req, res) {
   console.log("trip create test");
-  let owner = req.user.id;
+  let userid = req.user.id;
   let destination = req.body.tripdata.destination;
   let departDate = req.body.tripdata.departDate;
   let returnDate = req.body.tripdata.returnDate;
@@ -22,7 +22,7 @@ router.post("/", function (req, res) {
       returnDate: returnDate,
       companions: companions,
       occasion: occasion,
-      owner_id: owner,
+      userId: userid,
     })
     .then(
       function createSuccess(tripdata) {
@@ -43,7 +43,7 @@ router.get("/", function (req, res) {
 
   tripModel
     .findAll({
-      where: { owner_id: userid },
+      where: { userId: userid },
     })
     .then(
       function findAllSuccess(data) {
@@ -63,7 +63,7 @@ router.get("/:id", function (req, res) {
 
   tripModel
     .findOne({
-      where: { id: data, owner_id: userid },
+      where: { id: data, userId: userid },
     })
     .then(
       function findOneSuccess(data) {
@@ -95,7 +95,7 @@ router.put("/:id", function (req, res) {
         returnDate: returnDate,
         companions: companions,
         occasion: occasion,
-        owner_id: userid /* ? */,
+        userId: userid /* ? */,
       },
       { where: { id: data } }
     )
@@ -120,7 +120,7 @@ router.delete("/:id", function (req, res) {
 
   tripModel
     .destroy({
-      where: { id: data, owner_id: userid },
+      where: { id: data, userId: userid },
     })
     .then(
       function deleteTripSuccess(data) {
