@@ -9,7 +9,7 @@ let place = require('./controllers/placecontroller');
 let thought = require('./controllers/thoughtcontroller');
 let sequelize = require('./db');
 
-sequelize.sync({force:true}); //remove this when ready to keep data {force:true}
+sequelize.sync(); //remove {force:true} when ready to keep data {force:true}
 
 app.use(express.json()); // MUST go above routes so they can use express.json() (otherwise they will break)
 app.use(require('./middleware/headers'));
@@ -23,9 +23,9 @@ app.use(require('./middleware/validateSession'));
 // protected routes //
 app.use('/mytrips', trip);
 
-app.use('/mytrips/:id', thing);
-app.use('/mytrips/:id', place);
-app.use('/mytrips/:id', thought);
+app.use('/thing', thing); //postman fail
+app.use('/place', place);
+app.use('/thought', thought);
 
 app.listen(process.env.PORT, () => {
      console.log(`server is listening on port ${process.env.PORT}`)

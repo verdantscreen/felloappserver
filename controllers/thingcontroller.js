@@ -6,16 +6,16 @@ let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 let thingModel = sequelize.import("../models/thing");
 
-// post pack thing
-router.post("/addthing", function (req, res) {
+// post pack thing /mytrips/:id
+router.post("/:trip/addthing", function (req, res) {
   console.log("pack thing create test");
   var packdata = packdata;
   let thing = req.body.packdata.thing;
   let quantity = req.body.packdata.quantity;
   let packed = req.body.packdata.packed;
   let repacked = req.body.packdata.repacked;
-  let tripid = req.user.id.trip.id;
-  let userid = req.user.id;
+  let tripid = req.params.id; //incorrect? //express
+  // let userid = req.user.id; // not needed?
 
   thingModel
     .create({
@@ -24,7 +24,7 @@ router.post("/addthing", function (req, res) {
       packed: packed,
       repacked: repacked,
       tripId: tripid,
-      userId: userid
+      // userId: userid
     })
     .then(
       function createSuccess(packdata) {
@@ -39,10 +39,10 @@ router.post("/addthing", function (req, res) {
     );
 });
 
-// get all packed things
-router.get("/allthings", function (req, res) {
+// get all packed things /mytrips/:id
+router.get("/:trip/allthings", function (req, res) {
   let userid = req.user.id;
-  let tripid = req.user.id.trip.id;
+  let tripid = req.params.trip;
 
   thingModel
     .findAll({
@@ -59,11 +59,10 @@ router.get("/allthings", function (req, res) {
     );
 });
 
-// get single pack thing
+// get single pack thing /mytrips/:id
 router.get("/thing/:id", function (req, res) {
-  let data = req.params.id;
   let userid = req.user.id;
-  let tripid = req.user.id.trip.id;
+  let tripid = req.params.trip;
 
   thingModel
     .findOne({
