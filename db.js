@@ -1,7 +1,6 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-    host: "localhost",
     dialect: 'postgres'
 });
 
@@ -14,7 +13,7 @@ sequelize.authenticate().then(
     }
 );
 
-let user = sequelize.import('./models/user'); //user hasMany trips
+let user = sequelize.import('./models/user'); 
 let trip = sequelize.import('./models/trip');
 let thing = sequelize.import('./models/thing');
 let place = sequelize.import('./models/place');

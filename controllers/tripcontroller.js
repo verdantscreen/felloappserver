@@ -8,6 +8,7 @@ let tripModel = sequelize.import("../models/trip");
 // post trip
 router.post("/", function (req, res) {
   console.log("trip create test");
+  var tripdata = tripdata;
   let userid = req.user.id;
   let destination = req.body.tripdata.destination;
   let departDate = req.body.tripdata.departDate;
@@ -95,13 +96,12 @@ router.put("/:id", function (req, res) {
         returnDate: returnDate,
         companions: companions,
         occasion: occasion,
-        userId: userid /* ? */,
+        userId: userid
       },
       { where: { id: data } }
     )
     .then(
       function updateSuccess(updatedTrip) {
-        /* ? */
         res.json({
           tripdata: tripdata,
         });

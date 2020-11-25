@@ -6,10 +6,11 @@ let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 let thingModel = sequelize.import("../models/thing");
 
-// post pack item
-router.post("/", function (req, res) {
-  console.log("quantity create test");
-  let item = req.body.packdata.item;
+// post pack thing
+router.post("/addthing", function (req, res) {
+  console.log("pack thing create test");
+  var packdata = packdata;
+  let thing = req.body.packdata.thing;
   let quantity = req.body.packdata.quantity;
   let packed = req.body.packdata.packed;
   let repacked = req.body.packdata.repacked;
@@ -18,7 +19,7 @@ router.post("/", function (req, res) {
 
   thingModel
     .create({
-      item: item,
+      thing: thing,
       quantity: quantity,
       packed: packed,
       repacked: repacked,
@@ -33,13 +34,13 @@ router.post("/", function (req, res) {
       },
       function createError(err) {
         res.send(500, err.message);
-        console.log("create trip error");
+        console.log("create pack thing error");
       }
     );
 });
 
-// get all packed items
-router.get("/", function (req, res) {
+// get all packed things
+router.get("/allthings", function (req, res) {
   let userid = req.user.id;
   let tripid = req.user.id.trip.id;
 
@@ -53,53 +54,57 @@ router.get("/", function (req, res) {
       },
       function findAllError(err) {
         res.send(500, err.message);
-        console.log("get all trips error")
+        console.log("get all pack things error")
       }
     );
 });
 
-// // get single trip
-// router.get("/:id", function (req, res) {
-//   let data = req.params.id;
-//   let userid = req.user.id;
-//   let tripid = req.user.id.trip.id;
-
-//   thingModel
-//     .findOne({
-//       where: { id: data, userId: userid, tripId: tripid },
-//     })
-//     .then(
-//       function findOneSuccess(data) {
-//         res.json(data);
-//       },
-//       function findOneError(err) {
-//         res.send(500, err.message);
-//         console.log("get single trip error")
-//       }
-//     );
-// });
-
-// update single quantity
-router.put("/:id", function (req, res) {
-  let date = req.body.packdata.date;
-  let quantity = req.body.packdata.quantity;
+// get single pack thing
+router.get("/thing/:id", function (req, res) {
   let data = req.params.id;
+  let userid = req.user.id;
+  let tripid = req.user.id.trip.id;
+
+  thingModel
+    .findOne({
+      where: { id: data, userId: userid, tripId: tripid },
+    })
+    .then(
+      function findOneSuccess(data) {
+        res.json(data);
+      },
+      function findOneError(err) {
+        res.send(500, err.message);
+        console.log("get single thing error")
+      }
+    );
+});
+
+// update single pack thing
+router.put("/thing/:id", function (req, res) {
   var packdata = req.body.packdata;
+  let thing = req.body.packdata.thing;
+  let quantity = req.body.packdata.quantity;
+  let packed = req.body.packdata.packed;
+  let repacked = req.body.packdata.repacked;
+  let data = req.params.id;
   let userid = req.user.id;
   let tripid = req.user.id.trip.id;
 
   thingModel
     .update(
       {
-        date: date,
+        thing: thing,
         quantity: quantity,
+        packed: packed,
+        repacked: repacked,
         userId: userid,
-        tripId = tripid
+        tripId: tripid
       },
-      { where: { id: data } }
+      { where: { id: data, userId: userid, tripId: tripid } }
     )
     .then(
-      function updateSuccess(updatedTrip) {
+      function updateSuccess(updatedThing) {
         /* ? */
         res.json({
           packdata: packdata,
@@ -107,13 +112,13 @@ router.put("/:id", function (req, res) {
       },
       function updateError(err) {
         res.send(500, err.message);
-        console.log("update single trip error")
+        console.log("update single thing error")
       }
     );
 });
 
-// delete single trip
-router.delete("/:id", function (req, res) {
+// delete single pack thing
+router.delete("/:id/thing", function (req, res) {
   let data = req.params.id;
   let userid = req.user.id;
   let tripid = req.user.id.trip.id;
@@ -123,12 +128,12 @@ router.delete("/:id", function (req, res) {
       where: { id: data, userId: userid, tripId: tripid },
     })
     .then(
-      function deleteTripSuccess(data) {
-        res.send("trip deleted successfully");
+      function deleteThingSuccess(data) {
+        res.send("pack thing deleted successfully");
       },
-      function deleteTripError(err) {
+      function deleteThingError(err) {
         res.send(500, err.message);
-        console.log("delete single trip error")
+        console.log("delete single pack thing error")
       }
     );
 });

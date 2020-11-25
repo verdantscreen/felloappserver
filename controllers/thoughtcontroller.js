@@ -6,30 +6,31 @@ let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 let thoughtModel = sequelize.import("../models/thought");
 
-// post entry
-router.post("/", function (req, res) {
-  console.log("entry create test");
-  let userid = req.user.id;
-  let date = req.body.entrydata.date;
-  let entry = req.body.entrydata.entry;
+// post thought
+router.post("/addthought", function (req, res) {
+  console.log("thought create test");
+  var thoughtdata = thoughtdata;
+  let date = req.body.thoughtdata.date;
+  let thought = req.body.thoughtdata.thought;
   let tripid = req.user.id.trip.id;
+  let userid = req.user.id;
 
   thoughtModel
     .create({
       date: date,
-      entry: entry,
+      thought: thought,
       tripId: tripid,
       userId: userid
     })
     .then(
-      function createSuccess(entrydata) {
+      function createSuccess(thoughtdata) {
         res.json({
-          entrydata: entrydata,
+          thoughtdata: thoughtdata,
         });
       },
       function createError(err) {
         res.send(500, err.message);
-        console.log("create trip error");
+        console.log("create thought error");
       }
     );
 });
@@ -49,38 +50,38 @@ router.get("/", function (req, res) {
       },
       function findAllError(err) {
         res.send(500, err.message);
-        console.log("get all trips error")
+        console.log("get all thoughts error")
       }
     );
 });
 
-// // get single trip
-// router.get("/:id", function (req, res) {
-//   let data = req.params.id;
-//   let userid = req.user.id;
-//   let tripid = req.user.id.trip.id;
-
-//   thoughtModel
-//     .findOne({
-//       where: { id: data, userId: userid, tripId: tripid },
-//     })
-//     .then(
-//       function findOneSuccess(data) {
-//         res.json(data);
-//       },
-//       function findOneError(err) {
-//         res.send(500, err.message);
-//         console.log("get single trip error")
-//       }
-//     );
-// });
-
-// update single entry
-router.put("/:id", function (req, res) {
-  let date = req.body.entrydata.date;
-  let entry = req.body.entrydata.entry;
+// get single trip
+router.get("/thought:id", function (req, res) {
   let data = req.params.id;
-  var entrydata = req.body.entrydata;
+  let userid = req.user.id;
+  let tripid = req.user.id.trip.id;
+
+  thoughtModel
+    .findOne({
+      where: { id: data, userId: userid, tripId: tripid },
+    })
+    .then(
+      function findOneSuccess(data) {
+        res.json(data);
+      },
+      function findOneError(err) {
+        res.send(500, err.message);
+        console.log("get single thought error")
+      }
+    );
+});
+
+// update single thought
+router.put("/thought:id", function (req, res) {
+  let date = req.body.thoughtdata.date;
+  let thought = req.body.thoughtdata.thought;
+  let data = req.params.id;
+  var thoughtdata = req.body.thoughtdata;
   let userid = req.user.id;
   let tripid = req.user.id.trip.id;
 
@@ -88,17 +89,17 @@ router.put("/:id", function (req, res) {
     .update(
       {
         date: date,
-        entry: entry,
+        thought: thought,
         userId: userid,
-        tripId = tripid
+        tripId: tripid
       },
       { where: { id: data } }
     )
     .then(
-      function updateSuccess(updatedTrip) {
+      function updateSuccess(updatedThought) {
         /* ? */
         res.json({
-          entrydata: entrydata,
+          thoughtdata: thoughtdata,
         });
       },
       function updateError(err) {
@@ -109,7 +110,7 @@ router.put("/:id", function (req, res) {
 });
 
 // delete single trip
-router.delete("/:id", function (req, res) {
+router.delete("/thought:id", function (req, res) {
   let data = req.params.id;
   let userid = req.user.id;
   let tripid = req.user.id.trip.id;
@@ -119,12 +120,12 @@ router.delete("/:id", function (req, res) {
       where: { id: data, userId: userid, tripId: tripid },
     })
     .then(
-      function deleteTripSuccess(data) {
-        res.send("trip deleted successfully");
+      function deleteThoughtSuccess(data) {
+        res.send("Thought deleted successfully");
       },
-      function deleteTripError(err) {
+      function deleteThoughtError(err) {
         res.send(500, err.message);
-        console.log("delete single trip error")
+        console.log("delete single thought error")
       }
     );
 });

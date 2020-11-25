@@ -16,6 +16,6 @@ module.exports = function (sequelize, DataTypes){
         occasion: {
             type: DataTypes.STRING,
             allowNull: true
-        }, //drop down
+        }
     })
 }

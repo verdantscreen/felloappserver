@@ -4,9 +4,9 @@ let app = express();
 let test = require('./controllers/testcontroller'); 
 let user = require('./controllers/usercontroller');
 let trip = require('./controllers/tripcontroller');
-// let thing = require('./controllers/thingcontroller');
-// let place = require('./controllers/placecontroller');
-// let thought = require('./controllers/thoughtcontroller');
+let thing = require('./controllers/thingcontroller');
+let place = require('./controllers/placecontroller');
+let thought = require('./controllers/thoughtcontroller');
 let sequelize = require('./db');
 
 sequelize.sync({force:true}); //remove this when ready to keep data {force:true}
@@ -22,9 +22,10 @@ app.use('/user', user);
 app.use(require('./middleware/validateSession'));
 // protected routes //
 app.use('/mytrips', trip);
-// app.use('mytrips/trip/:id', thing);
-// app.use('mytrips/trip/:id', place);
-// app.use('mytrips/trip/:id', thought);
+
+app.use('/mytrips/:id', thing);
+app.use('/mytrips/:id', place);
+app.use('/mytrips/:id', thought);
 
 app.listen(process.env.PORT, () => {
      console.log(`server is listening on port ${process.env.PORT}`)
