@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes){
     return sequelize.define("thought", {
-        date: DataTypes.DATE,
+        date: DataTypes.DATEONLY,
         thought: DataTypes.TEXT,
     })
 }

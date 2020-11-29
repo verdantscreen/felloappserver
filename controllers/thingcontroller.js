@@ -6,16 +6,14 @@ let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 let thingModel = sequelize.import("../models/thing");
 
-// post pack thing /mytrips/:id
-router.post("/:trip/addthing", function (req, res) {
+// post pack thing /mytrips/
+router.post("/trip:tripid/addthing", function (req, res) {
   console.log("pack thing create test");
-  var packdata = packdata;
   let thing = req.body.packdata.thing;
   let quantity = req.body.packdata.quantity;
   let packed = req.body.packdata.packed;
   let repacked = req.body.packdata.repacked;
-  let tripid = req.params.id; //incorrect? //express
-  // let userid = req.user.id; // not needed?
+  let tripid = req.params.tripid; 
 
   thingModel
     .create({
@@ -24,7 +22,6 @@ router.post("/:trip/addthing", function (req, res) {
       packed: packed,
       repacked: repacked,
       tripId: tripid,
-      // userId: userid
     })
     .then(
       function createSuccess(packdata) {
@@ -39,14 +36,13 @@ router.post("/:trip/addthing", function (req, res) {
     );
 });
 
-// get all packed things /mytrips/:id
-router.get("/:trip/allthings", function (req, res) {
-  let userid = req.user.id;
-  let tripid = req.params.trip;
+// get all packed things /mytrips/
+router.get("/trip:tripid/allthings", function (req, res) {
+  let tripid = req.params.tripid;
 
   thingModel
     .findAll({
-      where: { userId: userid, tripId: tripid },
+      where: { tripId: tripid },
     })
     .then(
       function findAllSuccess(data) {
@@ -59,14 +55,14 @@ router.get("/:trip/allthings", function (req, res) {
     );
 });
 
-// get single pack thing /mytrips/:id
-router.get("/thing/:id", function (req, res) {
-  let userid = req.user.id;
-  let tripid = req.params.trip;
+// get single pack thing
+router.get("/trip:tripid/thing:id", function (req, res) {
+  let tripid = req.params.tripid;
+  let data = req.params.id;
 
   thingModel
     .findOne({
-      where: { id: data, userId: userid, tripId: tripid },
+      where: { tripId: tripid, id: data },
     })
     .then(
       function findOneSuccess(data) {
@@ -80,15 +76,14 @@ router.get("/thing/:id", function (req, res) {
 });
 
 // update single pack thing
-router.put("/thing/:id", function (req, res) {
+router.put("/trip:tripid/thing:id", function (req, res) {
   var packdata = req.body.packdata;
   let thing = req.body.packdata.thing;
   let quantity = req.body.packdata.quantity;
   let packed = req.body.packdata.packed;
   let repacked = req.body.packdata.repacked;
+  let tripid = req.params.tripid;
   let data = req.params.id;
-  let userid = req.user.id;
-  let tripid = req.user.id.trip.id;
 
   thingModel
     .update(
@@ -97,14 +92,12 @@ router.put("/thing/:id", function (req, res) {
         quantity: quantity,
         packed: packed,
         repacked: repacked,
-        userId: userid,
         tripId: tripid
       },
-      { where: { id: data, userId: userid, tripId: tripid } }
+      { where: { tripId: tripid, id: data } }
     )
     .then(
       function updateSuccess(updatedThing) {
-        /* ? */
         res.json({
           packdata: packdata,
         });
@@ -117,14 +110,13 @@ router.put("/thing/:id", function (req, res) {
 });
 
 // delete single pack thing
-router.delete("/:id/thing", function (req, res) {
+router.delete("/trip:tripid/thing:id", function (req, res) {
+  let tripid = req.params.tripid;
   let data = req.params.id;
-  let userid = req.user.id;
-  let tripid = req.user.id.trip.id;
 
   thingModel
     .destroy({
-      where: { id: data, userId: userid, tripId: tripid },
+      where: { tripId: tripid, id: data },
     })
     .then(
       function deleteThingSuccess(data) {

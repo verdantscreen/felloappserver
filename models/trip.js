@@ -2,11 +2,11 @@ module.exports = function (sequelize, DataTypes){
     return sequelize.define("trip", {
         destination: DataTypes.STRING,
         departDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: true
         },
         returnDate:{
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: true
         },
         companions: {

@@ -23,9 +23,9 @@ app.use(require('./middleware/validateSession'));
 // protected routes //
 app.use('/mytrips', trip);
 
-app.use('/thing', thing); //postman fail
-app.use('/place', place);
-app.use('/thought', thought);
+app.use('/things', thing); //postman success
+app.use('/places', place);
+app.use('/thoughts', thought);
 
 app.listen(process.env.PORT, () => {
      console.log(`server is listening on port ${process.env.PORT}`)

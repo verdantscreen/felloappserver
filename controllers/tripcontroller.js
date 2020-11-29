@@ -6,9 +6,9 @@ let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 
 // post trip
-router.post("/", function (req, res) {
+router.post("/addtrip", function (req, res) {
   console.log("trip create test");
-  var tripdata = tripdata;
+  // let tripdata = tripdata;
   let userid = req.user.id;
   let destination = req.body.tripdata.destination;
   let departDate = req.body.tripdata.departDate;
@@ -23,23 +23,24 @@ router.post("/", function (req, res) {
       returnDate: returnDate,
       companions: companions,
       occasion: occasion,
-      userId: userid,
+      userId: userid, //Need
     })
     .then(
       function createSuccess(tripdata) {
         res.json({
           tripdata: tripdata,
         });
+        console.log(res.body);
       },
       function createError(err) {
         res.send(500, err.message);
-        console.log("create trip error");
+        console.log("Jenat's create trip error");
       }
     );
 });
 
 // get all trips
-router.get("/", function (req, res) {
+router.get("/alltrips", function (req, res) {
   let userid = req.user.id;
 
   tripModel
@@ -85,7 +86,7 @@ router.put("/:id", function (req, res) {
   let companions = req.body.tripdata.companions;
   let occasion = req.body.tripdata.occasion;
   let data = req.params.id;
-  var tripdata = req.body.tripdata;
+  let tripdata = req.body.tripdata;
   let userid = req.user.id;
 
   tripModel
