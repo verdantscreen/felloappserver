@@ -23,7 +23,7 @@ app.use(require('./middleware/validateSession'));
 // protected routes //
 app.use('/mytrips', trip);
 
-app.use('/things', thing); //postman success
+app.use('/things', thing);
 app.use('/places', place);
 app.use('/thoughts', thought);
 

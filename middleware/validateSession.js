@@ -32,8 +32,11 @@ const jwt = require('jsonwebtoken'); //if you get an error stating something is 
 const User = require('../db').import('../models/user');
 
 const validateSession = (req, res, next) => { 
+    if (req.method == 'OPTIONS') {
+        next();
+    } else {
     const token = req.headers.authorization;
-    console.log(req.headers)
+    // console.log(req.headers)
     jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
         // console.log(`INVALID TOKEN: ${decodedToken}`)
         if (!err && decodedToken) {
@@ -48,7 +51,7 @@ const validateSession = (req, res, next) => {
             req.errors = err;
             res.status(401).send("This is a bad token")
         }
-    })
+    })}
 };
 
 module.exports = validateSession;

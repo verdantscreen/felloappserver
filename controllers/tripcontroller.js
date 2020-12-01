@@ -1,14 +1,12 @@
 let router = require("express").Router();
-const { Router } = require("express");
-const { databaseVersion } = require("../db");
+// const { Router } = require("express");
+// const { databaseVersion } = require("../db");
 let sequelize = require("../db");
-let User = sequelize.import("../models/user");
+// let User = sequelize.import("../models/user");
 let tripModel = sequelize.import("../models/trip");
 
 // post trip
 router.post("/addtrip", function (req, res) {
-  console.log("trip create test");
-  // let tripdata = tripdata;
   let userid = req.user.id;
   let destination = req.body.tripdata.destination;
   let departDate = req.body.tripdata.departDate;
@@ -30,7 +28,6 @@ router.post("/addtrip", function (req, res) {
         res.json({
           tripdata: tripdata,
         });
-        console.log(res.body);
       },
       function createError(err) {
         res.send(500, err.message);
@@ -59,7 +56,7 @@ router.get("/alltrips", function (req, res) {
 });
 
 // get single trip
-router.get("/:id", function (req, res) {
+router.get("/trip:id", function (req, res) {
   let data = req.params.id;
   let userid = req.user.id;
 
@@ -79,7 +76,7 @@ router.get("/:id", function (req, res) {
 });
 
 // update single trip
-router.put("/:id", function (req, res) {
+router.put("/trip:id", function (req, res) {
   let destination = req.body.tripdata.destination;
   let departDate = req.body.tripdata.departDate;
   let returnDate = req.body.tripdata.returnDate;
@@ -115,7 +112,7 @@ router.put("/:id", function (req, res) {
 });
 
 // delete single trip
-router.delete("/:id", function (req, res) {
+router.delete("/trip:id", function (req, res) {
   let data = req.params.id;
   let userid = req.user.id;
 

@@ -1,6 +1,6 @@
 module.exports = function (sequelize, DataTypes){
     return sequelize.define("place", {
-        date: DataTypes.DATEONLY,
+        date: DataTypes.STRING,
         place: DataTypes.STRING,
         purpose: DataTypes.STRING,
         spend: DataTypes.DECIMAL,
