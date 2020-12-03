@@ -22,11 +22,11 @@ let thought = sequelize.import('./models/thought');
 user.hasMany(trip);
 trip.belongsTo(user);
 
-trip.hasOne(thing);
+trip.hasMany(thing);
 thing.belongsTo(trip);
-trip.hasOne(place);
+trip.hasMany(place);
 place.belongsTo(trip);
-trip.hasOne(thought);
+trip.hasMany(thought);
 thought.belongsTo(trip);
 
 module.exports = sequelize;
