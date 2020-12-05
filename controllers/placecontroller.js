@@ -7,7 +7,7 @@ let tripModel = sequelize.import("../models/trip");
 let placeModel = sequelize.import("../models/place");
 
 // post place
-router.post("/trip:tripid/addplace", function (req, res) {
+router.post("/trip:tripId/addplace", function (req, res) {
   console.log("place create test");
   var placedata = placedata;
   let date = req.body.placedata.date;
@@ -15,7 +15,7 @@ router.post("/trip:tripid/addplace", function (req, res) {
   let purpose = req.body.placedata.purpose;
   let spend = req.body.placedata.spend;
   let goBack = req.body.placedata.goBack;
-  let tripid = req.params.tripid;
+  let tripId = req.body.packdata.tripId;
 
   placeModel
     .create({
@@ -24,7 +24,7 @@ router.post("/trip:tripid/addplace", function (req, res) {
       purpose: purpose,
       spend: spend,
       goBack: goBack,
-      tripId: tripid,
+      tripId: tripId,
     })
     .then(
       function createSuccess(placedata) {
@@ -40,12 +40,12 @@ router.post("/trip:tripid/addplace", function (req, res) {
 });
 
 // get all places
-router.get("/trip:tripid/allplaces", function (req, res) {
-  let tripid = req.params.tripid;
+router.get("/trip:tripId/allplaces", function (req, res) {
+  let tripId = req.body.packdata.tripId;
 
   placeModel
     .findAll({
-      where: { tripId: tripid },
+      where: { tripId: tripId },
     })
     .then(
       function findAllSuccess(data) {
@@ -59,13 +59,13 @@ router.get("/trip:tripid/allplaces", function (req, res) {
 });
 
 // get single place
-router.get("/trip:tripid/place:id", function (req, res) {
+router.get("/trip:tripId/place:id", function (req, res) {
   let data = req.params.id;
-  let tripid = req.params.tripid;
+  let tripId = req.body.packdata.tripId;
 
   placeModel
     .findOne({
-      where: { id: data, tripId: tripid },
+      where: { id: data, tripId: tripId },
     })
     .then(
       function findOneSuccess(data) {
@@ -79,7 +79,7 @@ router.get("/trip:tripid/place:id", function (req, res) {
 });
 
 // update single place 
-router.put("/trip:tripid/place:id", function (req, res) {
+router.put("/trip:tripId/place:id", function (req, res) {
   var placedata = req.body.placedata;
   let date = req.body.placedata.date;
   let place = req.body.placedata.place;
@@ -87,7 +87,7 @@ router.put("/trip:tripid/place:id", function (req, res) {
   let spend = req.body.placedata.spend;
   let goBack = req.body.placedata.goBack;
   let data = req.params.id;
-  let tripid = req.params.tripid;
+  let tripId = req.body.packdata.tripId;
 
   placeModel
     .update(
@@ -97,9 +97,9 @@ router.put("/trip:tripid/place:id", function (req, res) {
         purpose: purpose,
         spend: spend,
         goBack: goBack,
-        tripId: tripid
+        tripId: tripId
       },
-      { where: { id: data, tripId: tripid } }
+      { where: { id: data, tripId: tripId } }
     )
     .then(
       function updateSuccess(updatedPlace) {
@@ -115,13 +115,13 @@ router.put("/trip:tripid/place:id", function (req, res) {
 });
 
 // delete single place
-router.delete("/trip:tripid/place:id", function (req, res) {
+router.delete("/trip:tripId/place:id", function (req, res) {
   let data = req.params.id;
-  let tripid = req.params.tripid;
+  let tripId = req.body.packdata.tripId;
 
   placeModel
     .destroy({
-      where: { id: data, tripId: tripid },
+      where: { id: data, tripId: tripId },
     })
     .then(
       function deleteplaceSuccess(data) {

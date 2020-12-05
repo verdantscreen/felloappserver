@@ -7,18 +7,18 @@ let tripModel = sequelize.import("../models/trip");
 let thoughtModel = sequelize.import("../models/thought");
 
 // post thought
-router.post("/trip:tripid/addthought", function (req, res) {
+router.post("/trip:tripId/addthought", function (req, res) {
   console.log("thought create test");
   var thoughtdata = thoughtdata;
   let date = req.body.thoughtdata.date;
   let thought = req.body.thoughtdata.thought;
-  let tripid = req.params.tripid;
+  let tripId = req.body.packdata.tripId;
 
   thoughtModel
     .create({
       date: date,
       thought: thought,
-      tripId: tripid,
+      tripId: tripId,
     })
     .then(
       function createSuccess(thoughtdata) {
@@ -34,12 +34,12 @@ router.post("/trip:tripid/addthought", function (req, res) {
 });
 
 // get all entries
-router.get("/trip:tripid/allthoughts", function (req, res) {
-  let tripid = req.params.tripid;
-
+router.get("/trip:tripId/allthoughts", function (req, res) {
+  let tripId = req.body.packdata.tripId;
+  
   thoughtModel
     .findAll({
-      where: { tripId: tripid },
+      where: { tripId: tripId },
     })
     .then(
       function findAllSuccess(data) {
@@ -53,13 +53,13 @@ router.get("/trip:tripid/allthoughts", function (req, res) {
 });
 
 // get single thought
-router.get("/trip:tripid/thought:id", function (req, res) {
+router.get("/trip:tripId/thought:id", function (req, res) {
   let data = req.params.id;
-  let tripid = req.params.tripid;
-
+  let tripId = req.body.packdata.tripId;
+  
   thoughtModel
     .findOne({
-      where: { id: data, tripId: tripid },
+      where: { id: data, tripId: tripId },
     })
     .then(
       function findOneSuccess(data) {
@@ -73,21 +73,21 @@ router.get("/trip:tripid/thought:id", function (req, res) {
 });
 
 // update single thought
-router.put("/trip:tripid/thought:id", function (req, res) {
+router.put("/trip:tripId/thought:id", function (req, res) {
   var thoughtdata = req.body.thoughtdata;
   let date = req.body.thoughtdata.date;
   let thought = req.body.thoughtdata.thought;
   let data = req.params.id;
-  let tripid = req.params.tripid;
-
+  let tripId = req.body.packdata.tripId;
+  
   thoughtModel
     .update(
       {
         date: date,
         thought: thought,
-        tripId: tripid
+        tripId: tripId
       },
-      { where: { tripId: tripid, id: data } }
+      { where: { tripId: tripId, id: data } }
     )
     .then(
       function updateSuccess(updatedThought) {
@@ -103,13 +103,13 @@ router.put("/trip:tripid/thought:id", function (req, res) {
 });
 
 // delete single thought
-router.delete("/trip:tripid/thought:id", function (req, res) {
+router.delete("/trip:tripId/thought:id", function (req, res) {
   let data = req.params.id;
-  let tripid = req.params.tripid;
-
+  let tripId = req.body.packdata.tripId;
+  
   thoughtModel
     .destroy({
-      where: { id: data, tripId: tripid },
+      where: { id: data, tripId: tripId },
     })
     .then(
       function deleteThoughtSuccess(data) {
