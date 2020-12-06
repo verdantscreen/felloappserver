@@ -83,6 +83,8 @@ router.put("/trip:tripId/thing:id", function (req, res) {
   let packed = req.body.packdata.packed;
   let repacked = req.body.packdata.repacked;
   let tripId = req.body.packdata.tripId;
+  //or
+  // let tripId = req.params.tripId;
   let data = req.params.id;
 
   thingModel
@@ -111,7 +113,8 @@ router.put("/trip:tripId/thing:id", function (req, res) {
 
 // delete single pack thing
 router.delete("/trip:tripId/thing:id", function (req, res) {
-  let tripId = req.body.packdata.tripId;
+  // let tripId = req.body.packdata.tripId;
+  let tripId = req.params.tripId;
   let data = req.params.id;
 
   thingModel
