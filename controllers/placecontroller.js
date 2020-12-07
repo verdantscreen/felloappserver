@@ -41,7 +41,7 @@ router.post("/trip:tripId/addplace", function (req, res) {
 
 // get all places
 router.get("/trip:tripId/allplaces", function (req, res) {
-  let tripId = req.body.packdata.tripId;
+  let tripId = req.params.tripId;
 
   placeModel
     .findAll({
@@ -60,8 +60,8 @@ router.get("/trip:tripId/allplaces", function (req, res) {
 
 // get single place
 router.get("/trip:tripId/place:id", function (req, res) {
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
 
   placeModel
     .findOne({
@@ -86,8 +86,8 @@ router.put("/trip:tripId/place:id", function (req, res) {
   let purpose = req.body.placedata.purpose;
   let spend = req.body.placedata.spend;
   let goBack = req.body.placedata.goBack;
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
 
   placeModel
     .update(
@@ -116,8 +116,8 @@ router.put("/trip:tripId/place:id", function (req, res) {
 
 // delete single place
 router.delete("/trip:tripId/place:id", function (req, res) {
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
 
   placeModel
     .destroy({
