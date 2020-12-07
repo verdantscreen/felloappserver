@@ -35,7 +35,7 @@ router.post("/trip:tripId/addthought", function (req, res) {
 
 // get all entries
 router.get("/trip:tripId/allthoughts", function (req, res) {
-  let tripId = req.body.packdata.tripId;
+  let tripId = req.params.tripId;
   
   thoughtModel
     .findAll({
@@ -54,8 +54,8 @@ router.get("/trip:tripId/allthoughts", function (req, res) {
 
 // get single thought
 router.get("/trip:tripId/thought:id", function (req, res) {
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
   
   thoughtModel
     .findOne({
@@ -77,8 +77,8 @@ router.put("/trip:tripId/thought:id", function (req, res) {
   var thoughtdata = req.body.thoughtdata;
   let date = req.body.thoughtdata.date;
   let thought = req.body.thoughtdata.thought;
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
   
   thoughtModel
     .update(
@@ -104,8 +104,8 @@ router.put("/trip:tripId/thought:id", function (req, res) {
 
 // delete single thought
 router.delete("/trip:tripId/thought:id", function (req, res) {
+  let tripId = req.params.tripId;
   let data = req.params.id;
-  let tripId = req.body.packdata.tripId;
   
   thoughtModel
     .destroy({
